@@ -2,10 +2,15 @@
 > 极简使用的/更简洁的vue滚动插件，基于[better-scroll](https://github.com/ustbhuangyi/better-scroll)
 
 ## 特性
-* 极简使用/更简洁的
-* 更少bug
-* 更优性能
-* 更好的体验
+* **极简使用**
+  * 零配置
+  * 自动刷新滚动高度，无需手动调用refresh
+* **更优性能**
+  * 使用transform替代position，下拉刷新不再掉帧
+* **更好的体验**
+  * 滚动内容小于滚动视口时，也可以滚动/回弹/下拉刷新/上拉加载
+  * 多次下拉刷新节流
+  * 多处细节改进
 
 
 ## 示例
@@ -71,6 +76,8 @@ pullUpConfig | 上拉加载配置 | Object | { threshold: 100, // 提前触发 p
 startY | 纵轴方向初始化位置 | Number | 0
 bounce | 回弹效果 | Boolean | true
 bounceTime | 回弹时间 | Number | 600
+preventDefaultException | [不阻止默认行为](https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/options.html#preventdefaultexception) | Object | {tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/}
+autoUpdate | 自动刷新高度。如果关闭，需要手动调用update() | Boolean | true
 
 ### Methods
 方法名 | 说明 | 参数
@@ -78,10 +85,10 @@ bounceTime | 回弹时间 | Number | 600
 initScroll | 初始化scroll组件 | |
 disable | 禁用 better-scroll，DOM 事件（如 touchstart、touchmove、touchend）的回调函数不再响应 | |
 enable | 启用 better-scroll, 默认 开启 | |
-scrollTo | 滚动到指定的位置 | (x:Number, y:Number, time:Number) 1.x横轴坐标(px) 2.y 纵轴坐标(px) 3.滚动动画执行的时长(ms)
+scrollTo | 滚动到指定的位置 | (x:Number, y:Number, time:Number) 1.x横轴坐标(px)，默认值=0  2.y 纵轴坐标(px)，默认值=0  3.滚动动画执行的时长(ms)，默认值=$props.bounceTime=600
 scrollToElement | 滚动到指定的目标元素 | (el, time, offsetX , offsetY )接收4个参数 详情请查看: [scrollToElement](https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/api.html#scrolltoelementel-time-offsetx-offsety-easing)
 destroy | 销毁 better-scroll，解绑事件
-refresh | 刷新滚动高度（当页面无法滚动时，可尝试调用此方法），vue-slim-better-scroll在 $slots.default[0].context.$data 改变时会自动调用该方法，一般无需手动调用该方法
+refresh | 刷新滚动高度（当页面无法滚动时，可尝试调用此方法），vue-slim-better-scroll在 this.$parent.$data 改变时会自动调用该方法，一般无需手动调用该方法
 update | 更新加载状态，下拉/下拉成功后使用。一般 vue-slim-better-scroll 会在恰当的时候自动调用该方法。仅当上拉加载到最后一页/需要触发停止上拉加载时，需要手动调用它 | (final:Boolean) 表明pullUp上拉加载是否到了最底部
 
 ### Events:
